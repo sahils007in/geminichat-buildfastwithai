@@ -62,12 +62,9 @@ if prompt := st.chat_input("Type your message here..."):
 
     # Replay previous messages (FULL CONTEXT: user + assistant)
     for msg in st.session_state.history[:-1]:
-        chat.send_message(
-            types.Content(
-                role=msg["role"],
-                parts=[types.Part(text=msg["content"])]
-            )
-        )
+        if msg["role"] == "user":
+            chat.send_message(msg["content"])
+
 
     # Get response from Gemini
     with st.chat_message("assistant"):
